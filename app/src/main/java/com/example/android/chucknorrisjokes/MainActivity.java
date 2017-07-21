@@ -3,9 +3,11 @@ package com.example.android.chucknorrisjokes;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -21,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button getJoke;
     private TextView joke;
+    private ProgressBar indeterminateProgressBar;
+    private RecyclerView jokesScroll;
+
     private static final String EndPoint = "https://api.chucknorris.io/jokes/random";
 
     @Override
@@ -30,15 +35,32 @@ public class MainActivity extends AppCompatActivity {
 
         getJoke = (Button) findViewById(R.id.button_get_joke);
         joke = (TextView) findViewById(R.id.tv_return_joke);
+        indeterminateProgressBar = (ProgressBar) findViewById(R.id.indeterminateBar);
+        jokesScroll = (RecyclerView) findViewById(R.id.recyclerview_jokes);
+
+        /*
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        jokesScroll.setLayoutManager(layoutManager);
+        jokesScroll.setHasFixedSize(true);
+        */
 
         getJoke.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 joke.setVisibility(View.VISIBLE);
                 new ChuckQueryTask().execute();
+                jokesScroll.setVisibility(View.VISIBLE);
             }
         });
     }
     public class ChuckQueryTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            indeterminateProgressBar.setVisibility(View.VISIBLE);
+            getJoke.setVisibility(View.INVISIBLE);
+        }
+
         @Override
         protected String doInBackground(Void... params) {
             OkHttpClient client = new OkHttpClient();
@@ -67,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             if(s != null) {
                 Log.d("TAG", "onPostExecute() called with: s = [" + s + "]");
+                indeterminateProgressBar.setVisibility(View.INVISIBLE);
+                getJoke.setVisibility(View.VISIBLE);
                 joke.setText(s);
             }
         }
