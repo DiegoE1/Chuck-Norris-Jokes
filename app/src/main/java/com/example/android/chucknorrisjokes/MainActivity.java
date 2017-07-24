@@ -3,6 +3,7 @@ package com.example.android.chucknorrisjokes;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView joke;
     private ProgressBar indeterminateProgressBar;
     private RecyclerView jokesScroll;
+    private JokeAdapter jokeAdapter;
 
     private static final String EndPoint = "https://api.chucknorris.io/jokes/random";
 
@@ -36,15 +38,19 @@ public class MainActivity extends AppCompatActivity {
         getJoke = (Button) findViewById(R.id.button_get_joke);
         joke = (TextView) findViewById(R.id.tv_return_joke);
         indeterminateProgressBar = (ProgressBar) findViewById(R.id.indeterminateBar);
-        jokesScroll = (RecyclerView) findViewById(R.id.recyclerview_jokes);
+        jokesScroll = (RecyclerView) findViewById(R.id.rv_jokes);
 
-        /*
+
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         jokesScroll.setLayoutManager(layoutManager);
         jokesScroll.setHasFixedSize(true);
-        */
+
+        jokeAdapter = new JokeAdapter();
+        jokesScroll.setAdapter(jokeAdapter);
+
+
 
         getJoke.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
@@ -92,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 indeterminateProgressBar.setVisibility(View.INVISIBLE);
                 getJoke.setVisibility(View.VISIBLE);
                 joke.setText(s);
+                jokeAdapter.addJoke(s);
             }
         }
     }
