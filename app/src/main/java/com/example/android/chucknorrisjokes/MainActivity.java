@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Button getJoke;
     private TextView joke;
     private ProgressBar indeterminateProgressBar;
-    private RecyclerView jokesScroll;
+    private RecyclerView jokesRecyclerView;
     private JokeAdapter jokeAdapter;
 
     private static final String EndPoint = "https://api.chucknorris.io/jokes/random";
@@ -38,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
         getJoke = (Button) findViewById(R.id.button_get_joke);
         joke = (TextView) findViewById(R.id.tv_return_joke);
         indeterminateProgressBar = (ProgressBar) findViewById(R.id.indeterminateBar);
-        jokesScroll = (RecyclerView) findViewById(R.id.rv_jokes);
+        jokesRecyclerView = (RecyclerView) findViewById(R.id.rv_jokes);
 
 
         LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+               = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        jokesScroll.setLayoutManager(layoutManager);
-        jokesScroll.setHasFixedSize(true);
+        jokesRecyclerView.setLayoutManager(layoutManager);
+        jokesRecyclerView.setHasFixedSize(true);
 
         jokeAdapter = new JokeAdapter();
-        jokesScroll.setAdapter(jokeAdapter);
+        jokesRecyclerView.setAdapter(jokeAdapter);
 
 
 
@@ -56,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 joke.setVisibility(View.VISIBLE);
                 new ChuckQueryTask().execute();
-                jokesScroll.setVisibility(View.VISIBLE);
+                jokesRecyclerView.setVisibility(View.VISIBLE);
             }
         });
     }
+
     public class ChuckQueryTask extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPreExecute() {
@@ -98,7 +99,10 @@ public class MainActivity extends AppCompatActivity {
                 indeterminateProgressBar.setVisibility(View.INVISIBLE);
                 getJoke.setVisibility(View.VISIBLE);
                 joke.setText(s);
-                jokeAdapter.addJoke(s);
+
+                jokesRecyclerView.setVisibility(View.VISIBLE);
+                Log.d("RecyclerView Visible", s);
+                jokeAdapter.setJokeData(s);
             }
         }
     }

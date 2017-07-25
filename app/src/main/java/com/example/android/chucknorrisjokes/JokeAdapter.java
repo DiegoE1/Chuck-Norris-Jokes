@@ -2,6 +2,7 @@ package com.example.android.chucknorrisjokes;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public class JokeAdapter extends  RecyclerView.Adapter<JokeAdapter.JokeAdapterViewHolder> {
 
-    private ArrayList<String> jokeArrayList;
+    private ArrayList<String> jokeArrayList = new ArrayList<String>();
 
     public JokeAdapter(){
 
@@ -24,10 +25,13 @@ public class JokeAdapter extends  RecyclerView.Adapter<JokeAdapter.JokeAdapterVi
     public class JokeAdapterViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView jokeListTextView;
+        private final TextView jokeCountTextView;
 
         public JokeAdapterViewHolder(View itemView) {
             super(itemView);
-            jokeListTextView = null;
+            jokeListTextView = (TextView) itemView.findViewById(R.id.tv_item_content);
+            jokeCountTextView = (TextView) itemView.findViewById(R.id.tv_item_count);
+
         }
     }
 
@@ -45,7 +49,11 @@ public class JokeAdapter extends  RecyclerView.Adapter<JokeAdapter.JokeAdapterVi
     @Override
     public void onBindViewHolder(JokeAdapterViewHolder holder, int position) {
         String jokeForX = jokeArrayList.get(position);
+        Log.d("String jokeForX", jokeForX);
         holder.jokeListTextView.setText(jokeForX);
+        position += 1;
+        holder.jokeCountTextView.setText(String.valueOf(position) + "");
+
     }
 
     @Override
@@ -57,10 +65,5 @@ public class JokeAdapter extends  RecyclerView.Adapter<JokeAdapter.JokeAdapterVi
     public void setJokeData(String jokeData){
         jokeArrayList.add(jokeData);
         notifyDataSetChanged();
-    }
-
-    public void addJoke (String joke){
-        jokeArrayList.add(joke);
-
     }
 }
