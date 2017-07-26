@@ -54,9 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         getJoke.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                joke.setVisibility(View.VISIBLE);
                 new ChuckQueryTask().execute();
-                jokesRecyclerView.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -100,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 getJoke.setVisibility(View.VISIBLE);
                 joke.setText(s);
 
-                jokesRecyclerView.setVisibility(View.VISIBLE);
                 Log.d("RecyclerView Visible", s);
                 jokeAdapter.setJokeData(s);
             }
