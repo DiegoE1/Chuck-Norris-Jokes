@@ -7,6 +7,8 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     android:layout_marginTop="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginLeft="8dp"
     >
 
     <TextView
@@ -14,19 +16,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="8dp"
-        />
+        tools:text="20" />
 
     <TextView
         android:id="@+id/tv_item_content"
-        android:layout_width="360dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="8dp"
         android:textAlignment="center"
+        android:layout_marginLeft="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/tv_item_count"
-        />
+        tools:text="android"/>
 
 
 </android.support.constraint.ConstraintLayout>
